@@ -28,6 +28,14 @@ class _CreaNuovoElementoState extends State<CreaNuovoElemento> {
       descrizioneController.text = nuovoTodo.description;
     }
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    titoloController.dispose();
+    descrizioneController.dispose(); 
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
