@@ -14,14 +14,12 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-
   // Lista di Todo locale
-  // posso specificare il tipo di dato della lista, in questo caso List<Todo>, 
+  // posso specificare il tipo di dato della lista, in questo caso List<Todo>,
   //inizializzarla come una lista vuota con growable: true, che permette di aggiungere elementi alla lista in seguito.
   late List<Todo> listaDiTodo = List<Todo>.empty(growable: true);
 
-
-  // init state viene chiamato in automatico una sola volta quando il widget viene creato, 
+  // init state viene chiamato in automatico una sola volta quando il widget viene creato,
   //ed è il posto ideale per inizializzare la nostra lista di Todo.
 
   @override
@@ -29,7 +27,7 @@ class _HomepageState extends State<Homepage> {
     super.initState();
     // inizializziamo la lista locale copiando eventuale lista passata
 
-    if (widget.listaDiTodo != null){
+    if (widget.listaDiTodo != null) {
       listaDiTodo = List<Todo>.from(widget.listaDiTodo!);
     } else {
       listaDiTodo = <Todo>[];
@@ -58,8 +56,14 @@ class _HomepageState extends State<Homepage> {
               ),
             ),
             children: const [
-              TextSpan(text: 'Todo', style: TextStyle(color: Colors.black)),
-              TextSpan(text: 'App', style: TextStyle(color: Colors.redAccent)),
+              TextSpan(
+                text: 'Todo',
+                style: TextStyle(color: Colors.black),
+              ),
+              TextSpan(
+                text: 'App',
+                style: TextStyle(color: Colors.redAccent),
+              ),
             ],
           ),
         ),
@@ -73,33 +77,38 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-
-// FUNZIONI E WIDGET --------------------
- Widget tastoAggiungi() {
-    return FloatingActionButton.extended(
-      shape: RoundedRectangleBorder(
+  // FUNZIONI E WIDGET --------------------
+  Widget tastoAggiungi() {
+    return Container(
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        side: BorderSide(color: Colors.black, width: 5),
-      ),
-
-      elevation: 5,
-      backgroundColor: Colors.redAccent,
-
-      onPressed: () {
-        // Qui richiuamo il metodo per navigare alla schermata di creazione di un nuovo elemento.
-        navigaVersoSchermataCreazione();
-      },
-      label: Text(
-        "Aggiungi",
-        style: GoogleFonts.bitcountSingleInk(
-          textStyle: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
+        border: Border(
+          bottom: BorderSide(color: Colors.black, width: 5),
+          right: BorderSide(color: Colors.black, width: 5),
         ),
       ),
-      icon: const Icon(Icons.add, color: Colors.white),
+      child: FloatingActionButton.extended(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+
+        elevation: 5,
+        backgroundColor: Colors.redAccent,
+
+        onPressed: () {
+          // Qui richiuamo il metodo per navigare alla schermata di creazione di un nuovo elemento.
+          navigaVersoSchermataCreazione();
+        },
+        label: Text(
+          "Aggiungi",
+          style: GoogleFonts.bitcountSingleInk(
+            textStyle: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        icon: const Icon(Icons.add, color: Colors.white),
+      ),
     );
   }
 
@@ -111,14 +120,6 @@ class _HomepageState extends State<Homepage> {
         return elementoDellaTodo(todo, index);
       },
     );
-  }
-
-  void cambiaStatoDelTodo(int index) {
-    setState(() {
-      listaDiTodo[index] = listaDiTodo[index].copyWith(
-        isDone: !listaDiTodo[index].isDone,
-      );
-    });
   }
 
   Widget elementoDellaTodo(Todo todo, int index) {
@@ -137,9 +138,31 @@ class _HomepageState extends State<Homepage> {
           ListTile(
             titleAlignment: ListTileTitleAlignment.top,
             focusColor: Colors.transparent,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
             onTap: () {
-              cambiaStatoDelTodo(index);
+              setState(() {
+                listaDiTodo[index] = listaDiTodo[index].copyWith(
+                  isDone: !listaDiTodo[index].isDone,
+                );
+              });
+            },
+            onLongPress: () {
+              // Naviga alla schermata di creazione passando il Todo da modificare.
+              Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) =>
+                      CreaNuovoElemento(todoDaModificare: todo),
+                ),
+              ).then((todoModificato) {
+                if (todoModificato != null) {
+                  setState(() {
+                    listaDiTodo[index] = todoModificato;
+                  });
+                }
+              });
             },
             // titolo del todo, con font personalizzato e stile
             title: Text(
@@ -155,14 +178,13 @@ class _HomepageState extends State<Homepage> {
                 ),
               ),
             ),
-          
+
             // descrizione del todo, con font personalizzato e stile
             subtitle: Text(
               todo.description,
               style: GoogleFonts.bitcountSingleInk(
                 textStyle: const TextStyle(fontSize: 16),
-                              color: todo.isDone ? Colors.white : Colors.black,
-          
+                color: todo.isDone ? Colors.white : Colors.black,
               ),
             ),
             leading: Transform.scale(
@@ -173,7 +195,11 @@ class _HomepageState extends State<Homepage> {
                 side: BorderSide(color: Colors.black, width: 2),
                 value: todo.isDone,
                 onChanged: (value) {
-                  cambiaStatoDelTodo(index);
+                  setState(() {
+                    listaDiTodo[index] = listaDiTodo[index].copyWith(
+                      isDone: value,
+                    );
+                  });
                 },
               ),
             ),
@@ -187,20 +213,18 @@ class _HomepageState extends State<Homepage> {
                   listaDiTodo.removeAt(index);
                 });
               },
-              icon:  Icon(
-                Icons.delete, 
+              icon: Icon(
+                Icons.delete,
                 color: todo.isDone ? Colors.white : Colors.black,
               ),
             ),
-          )
+          ),
         ],
       ),
     );
   }
 
-
-
-// METODI -------------------------------
+  // METODI -------------------------------
   void navigaVersoSchermataCreazione() async {
     // Apriamo la schermata di creazione e aspettiamo il Todo restituito.
     final Todo? nuovo = await Navigator.push<Todo?>(
@@ -215,6 +239,4 @@ class _HomepageState extends State<Homepage> {
       });
     }
   }
-
- 
 }

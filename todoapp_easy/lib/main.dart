@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         listaDiTodo: const [],
         todoNuovo: Todo(
           title: "Tutorial TodoApp 🤖",
-          description: "Questo è un Todo di esempio creato per mostrare come funziona la nostra app. Premi il tasto '+ Aggiungi' per creare un nuovo Todo, oppure premi il tasto '🗑️' per rimuovere questo Todo di esempio.",
+          description: "Questo è un Todo di esempio creato per mostrare come funziona la nostra app. \n - Premi il tasto '+ Aggiungi' per creare un nuovo Todo,\n\ - Premi il tasto '🗑️' per rimuovere questo Todo di esempio.\n - Tieni premuto per modificare un Todo.",
         )
         ),
     );

@@ -3,7 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:todoapp_easy/model/todo.dart';
 
 class CreaNuovoElemento extends StatefulWidget {
-  const CreaNuovoElemento({super.key});
+
+  final Todo? todoDaModificare; 
+  const CreaNuovoElemento({super.key, this.todoDaModificare});
 
   @override
   State<CreaNuovoElemento> createState() => _CreaNuovoElementoState();
@@ -16,6 +18,16 @@ class _CreaNuovoElementoState extends State<CreaNuovoElemento> {
   TextEditingController titoloController = TextEditingController();
   TextEditingController descrizioneController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.todoDaModificare != null) {
+      nuovoTodo = widget.todoDaModificare!;
+      titoloController.text = nuovoTodo.title;
+      descrizioneController.text = nuovoTodo.description;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -166,30 +178,39 @@ class _CreaNuovoElementoState extends State<CreaNuovoElemento> {
   }
 
   Widget tastoSalva() {
-    return FloatingActionButton.extended(
-      shape: RoundedRectangleBorder(
+    return Container(
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        side: BorderSide(color: Colors.black, width: 5),
-      ),
-
-      elevation: 5,
-      backgroundColor: Colors.green,
-
-      onPressed: () {
-        // Qui richiuamo il metodo per navigare alla schermata di creazione di un nuovo elemento.
-        navigaVersoSchermataHome();
-      },
-      label: Text(
-        "Salva",
-        style: GoogleFonts.bitcountSingleInk(
-          textStyle: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
+        border: Border(
+          bottom: BorderSide(color: Colors.black, width: 5),
+          right: BorderSide(color: Colors.black, width: 4),
+        ),
+       ),
+      child: FloatingActionButton.extended(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4),
+        ),
+      
+        elevation: 5,
+        backgroundColor: widget.todoDaModificare == null ? Colors.green : Colors.orange,
+      
+        onPressed: () {
+          // Qui richiuamo il metodo per navigare alla schermata di creazione di un nuovo elemento.
+          navigaVersoSchermataHome();
+        },
+        label: Text(
+          
+           widget.todoDaModificare == null ? "Salva" : "Modifica",
+          style: GoogleFonts.bitcountSingleInk(
+            textStyle: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
         ),
+        icon: const Icon(Icons.save, color: Colors.white),
       ),
-      icon: const Icon(Icons.save, color: Colors.white),
     );
   }
 
