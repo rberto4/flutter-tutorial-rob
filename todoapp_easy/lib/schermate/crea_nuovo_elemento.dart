@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todoapp_easy/model/todo.dart';
-import 'package:todoapp_easy/schermate/crea_nuovo_elemento.dart';
 
 class CreaNuovoElemento extends StatefulWidget {
   const CreaNuovoElemento({super.key});
@@ -18,11 +16,13 @@ class _CreaNuovoElementoState extends State<CreaNuovoElemento> {
   TextEditingController titoloController = TextEditingController();
   TextEditingController descrizioneController = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       backgroundColor: Colors.amber,
+
+      // barra di stato con titolo e tasto per cancellare i campi di input
       appBar: AppBar(
         title: RichText(
           text: TextSpan(
@@ -57,30 +57,26 @@ class _CreaNuovoElementoState extends State<CreaNuovoElemento> {
               nuovoTodo.copyWith(title: "", description: "");
               titoloController.clear();
               descrizioneController.clear();
-
             },
-            icon: const Icon(Icons.clear_all, color: Colors.black, size: 28,),
-          )
+            icon: const Icon(Icons.clear_all, color: Colors.black, size: 28),
+          ),
         ],
       ),
 
-      body: creaFormPerNuovoTodo(),
+      body: SafeArea(child: creaFormPerNuovoTodo()),
 
       floatingActionButton: tastoSalva(),
     );
   }
 
-  void navigaVersoSchermataHome() {
-    // Chiudiamo questa schermata restituendo il nuovo Todo al chiamante.
-    Navigator.pop(context, nuovoTodo);
-  }
+  // FUNZIONI E WIDGET --------------------
 
   Widget creaFormPerNuovoTodo() {
     return Column(
       children: [
         Container(
           width: double.infinity,
-          height: MediaQuery.of(  context).size.height * 0.1,
+          height: MediaQuery.of(context).size.height * 0.1,
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
             color: Colors.grey.shade200,
@@ -92,18 +88,24 @@ class _CreaNuovoElementoState extends State<CreaNuovoElemento> {
           ),
           child: TextField(
             controller: titoloController,
-             cursorColor: Colors.redAccent,
-            decoration:  InputDecoration(
+            cursorColor: Colors.redAccent,
+            decoration: InputDecoration(
               labelText: 'Titolo ..',
-               labelStyle: GoogleFonts.bitcountSingleInk(
-                textStyle: const TextStyle(fontSize: 18, color: Colors.redAccent, fontWeight: FontWeight.bold ),
+              labelStyle: GoogleFonts.bitcountSingleInk(
+                textStyle: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.redAccent,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-             border: OutlineInputBorder(
-                borderSide: BorderSide.none
-              ),
+              border: OutlineInputBorder(borderSide: BorderSide.none),
             ),
-             style: GoogleFonts.bitcountSingleInk(
-              textStyle: const TextStyle(fontSize: 18, color: Colors.grey, fontWeight: FontWeight.bold ),
+            style: GoogleFonts.bitcountSingleInk(
+              textStyle: const TextStyle(
+                fontSize: 18,
+                color: Colors.grey,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             onChanged: (value) {
               setState(() {
@@ -114,7 +116,7 @@ class _CreaNuovoElementoState extends State<CreaNuovoElemento> {
         ),
         Container(
           width: double.infinity,
-          height: MediaQuery.of(  context).size.height * 0.4,
+          height: MediaQuery.of(context).size.height * 0.4,
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
             color: Colors.grey.shade200,
@@ -127,31 +129,36 @@ class _CreaNuovoElementoState extends State<CreaNuovoElemento> {
           child: TextField(
             controller: descrizioneController,
             cursorColor: Colors.redAccent,
-            decoration:  InputDecoration(
+            decoration: InputDecoration(
               labelText: 'Descrizione ..',
               labelStyle: GoogleFonts.bitcountSingleInk(
-                textStyle: const TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold ),
+                textStyle: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               alignLabelWithHint: true,
               floatingLabelBehavior: FloatingLabelBehavior.auto,
-              border: OutlineInputBorder(
-                borderSide: BorderSide.none
-              ),
+              border: OutlineInputBorder(borderSide: BorderSide.none),
             ),
             style: GoogleFonts.bitcountSingleInk(
-              textStyle: const TextStyle(fontSize: 18, color: Colors.grey, fontWeight: FontWeight.bold ),
+              textStyle: const TextStyle(
+                fontSize: 18,
+                color: Colors.grey,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            
-             maxLines: null,
-             expands: true,
-             textAlignVertical: TextAlignVertical.top,
-             
-             onChanged: (value) {
+
+            maxLines: null,
+            expands: true,
+            textAlignVertical: TextAlignVertical.top,
+
+            onChanged: (value) {
               setState(() {
                 nuovoTodo = nuovoTodo.copyWith(description: value);
               });
             },
-            
           ),
         ),
       ],
@@ -184,5 +191,11 @@ class _CreaNuovoElementoState extends State<CreaNuovoElemento> {
       ),
       icon: const Icon(Icons.save, color: Colors.white),
     );
+  }
+
+  // METODI -------------------------------
+  void navigaVersoSchermataHome() {
+    // Chiudiamo questa schermata restituendo il nuovo Todo al chiamante.
+    Navigator.pop(context, nuovoTodo);
   }
 }

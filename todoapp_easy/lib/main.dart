@@ -13,15 +13,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'TodoApp Easy',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
       ),
+      debugShowCheckedModeBanner: false,
       home: Homepage(
         listaDiTodo: const [],
         todoNuovo: Todo(
-          title: "Todo di esempio",
-          description: "Questo è un Todo di esempio creato per mostrare come funziona la nostra app. Premi il tasto + Aggiungi ",
+          title: "Tutorial TodoApp 🤖",
+          description: "Questo è un Todo di esempio creato per mostrare come funziona la nostra app. Premi il tasto '+ Aggiungi' per creare un nuovo Todo, oppure premi il tasto '🗑️' per rimuovere questo Todo di esempio.",
         )
         ),
     );

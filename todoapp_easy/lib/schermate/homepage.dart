@@ -7,38 +7,48 @@ import 'package:todoapp_easy/schermate/crea_nuovo_elemento.dart';
 class Homepage extends StatefulWidget {
   final List<Todo>? listaDiTodo;
   final Todo? todoNuovo;
-  Homepage({super.key, this.listaDiTodo, this.todoNuovo});
+  const Homepage({super.key, this.listaDiTodo, this.todoNuovo});
 
   @override
   State<Homepage> createState() => _HomepageState();
 }
 
 class _HomepageState extends State<Homepage> {
-  // Lista di Todo locale, sempre growable
-  late List<Todo> listaDiTodo;
+
+  // Lista di Todo locale
+  // posso specificare il tipo di dato della lista, in questo caso List<Todo>, 
+  //inizializzarla come una lista vuota con growable: true, che permette di aggiungere elementi alla lista in seguito.
+  late List<Todo> listaDiTodo = List<Todo>.empty(growable: true);
+
+
+  // init state viene chiamato in automatico una sola volta quando il widget viene creato, 
+  //ed è il posto ideale per inizializzare la nostra lista di Todo.
 
   @override
   void initState() {
     super.initState();
     // inizializziamo la lista locale copiando eventuale lista passata
-    listaDiTodo = widget.listaDiTodo != null
-        ? List<Todo>.from(widget.listaDiTodo!)
-        : <Todo>[
-                   ];
 
+    if (widget.listaDiTodo != null){
+      listaDiTodo = List<Todo>.from(widget.listaDiTodo!);
+    } else {
+      listaDiTodo = <Todo>[];
+    }
     // aggiungiamo il nuovo Todo se presente
     if (widget.todoNuovo != null) {
       listaDiTodo.add(widget.todoNuovo!);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       backgroundColor: Colors.amber,
       appBar: AppBar(
         automaticallyImplyActions: false,
         automaticallyImplyLeading: false,
+
+        // widget particolare per creare titolo con 2 colori
         title: RichText(
           text: TextSpan(
             style: GoogleFonts.bitcountSingleInk(
@@ -57,28 +67,15 @@ class _HomepageState extends State<Homepage> {
         backgroundColor: Colors.amber,
       ),
 
-      body: creaListaDiTodo(),
+      body: listaDelleTodo(),
 
       floatingActionButton: tastoAggiungi(),
     );
   }
 
-  void navigaVersoSchermataCreazione() async {
-    // Apriamo la schermata di creazione e aspettiamo il Todo restituito.
-    final Todo? nuovo = await Navigator.push<Todo?>(
-      context,
-      CupertinoPageRoute(builder: (context) => const CreaNuovoElemento()),
-    );
 
-    // Se l'utente ha salvato un Todo (non ha annullato), lo aggiungiamo.
-    if (nuovo != null) {
-      setState(() {
-        listaDiTodo.add(nuovo);
-      });
-    }
-  }
-
-  Widget tastoAggiungi() {
+// FUNZIONI E WIDGET --------------------
+ Widget tastoAggiungi() {
     return FloatingActionButton.extended(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
@@ -106,12 +103,12 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  Widget creaListaDiTodo() {
+  Widget listaDelleTodo() {
     return ListView.builder(
       itemCount: listaDiTodo.length,
       itemBuilder: (context, index) {
         final todo = listaDiTodo[index];
-        return elementoDiTodo(todo, index);
+        return elementoDellaTodo(todo, index);
       },
     );
   }
@@ -124,7 +121,7 @@ class _HomepageState extends State<Homepage> {
     });
   }
 
-  Widget elementoDiTodo(Todo todo, int index) {
+  Widget elementoDellaTodo(Todo todo, int index) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
@@ -134,8 +131,6 @@ class _HomepageState extends State<Homepage> {
           bottom: BorderSide(color: Colors.black, width: 5),
           right: BorderSide(color: Colors.black, width: 4),
         ),
-     
-        
       ),
       child: Column(
         children: [
@@ -146,7 +141,6 @@ class _HomepageState extends State<Homepage> {
             onTap: () {
               cambiaStatoDelTodo(index);
             },
-          
             // titolo del todo, con font personalizzato e stile
             title: Text(
               todo.title,
@@ -203,4 +197,24 @@ class _HomepageState extends State<Homepage> {
       ),
     );
   }
+
+
+
+// METODI -------------------------------
+  void navigaVersoSchermataCreazione() async {
+    // Apriamo la schermata di creazione e aspettiamo il Todo restituito.
+    final Todo? nuovo = await Navigator.push<Todo?>(
+      context,
+      CupertinoPageRoute(builder: (context) => const CreaNuovoElemento()),
+    );
+
+    // Se l'utente ha salvato un Todo (non ha annullato), lo aggiungiamo.
+    if (nuovo != null) {
+      setState(() {
+        listaDiTodo.add(nuovo);
+      });
+    }
+  }
+
+ 
 }
