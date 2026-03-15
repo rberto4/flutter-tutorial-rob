@@ -51,9 +51,10 @@ class _TodoappCreazioneSchermataState extends State<TodoappCreazioneSchermata> {
         child: TodoappAppbar(
           titolo: inModifica ? 'Modifica todo' : 'Crea nuovo',
            mostraFrecciaIndietro: true,
+           fontSize: 24,
            azioni: [
               IconButton(
-                icon: const Icon(Icons.clear_all, color: TodoappColori.rosso, size: 36,),
+                icon: const Icon(Icons.clear_all, color: TodoappColori.nero, size: 36,),
                 onPressed: () {
                   titoloController.clear();
                   descrizioneController.clear();
@@ -68,12 +69,8 @@ class _TodoappCreazioneSchermataState extends State<TodoappCreazioneSchermata> {
         icona: Icons.save,
         coloreDiSfondo: inModifica ? TodoappColori.arancio : TodoappColori.verde,
         coloreDelTesto: TodoappColori.bianco,
-        onPressed: () async {
-          await _salvaTodo(
-            context,
-            titoloController.text,
-            descrizioneController.text,
-          );
+        onPressed: ()  {
+           _salvaTodo(context, titoloController.text, descrizioneController.text);
           if (mounted) {
             Navigator.pop(context);
           }
@@ -92,13 +89,13 @@ class _TodoappCreazioneSchermataState extends State<TodoappCreazioneSchermata> {
         children: [
           SizedBox(
             width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.2,
+            height: MediaQuery.of(context).size.height * 0.1,
             child: TodoappContainer(
               child: TodoappTextfield(
                 controller: titoloController,
                 label: 'Titolo ..',
-                labelColor: TodoappColori.rosso,
-                coloreDelTesto: TodoappColori.nero,
+                labelColor: TodoappColori.nero,
+                coloreDelTesto: TodoappColori.grigio,
                 
               ),
             ),
@@ -106,7 +103,7 @@ class _TodoappCreazioneSchermataState extends State<TodoappCreazioneSchermata> {
           const SizedBox(height: 16.0),
           SizedBox(
             width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.5,
+            height: MediaQuery.of(context).size.height * 0.4,
             child: TodoappContainer(
               child: TodoappTextfield(
                 controller: descrizioneController,
@@ -122,11 +119,7 @@ class _TodoappCreazioneSchermataState extends State<TodoappCreazioneSchermata> {
     );
   }
 
-  Future<void> _salvaTodo(
-    BuildContext context,
-    String titolo,
-    String descrizione,
-  ) async {
+  Future<void> _salvaTodo(BuildContext context, String titolo, String descrizione) async {
     final controller = context.read<TodoappController>();
 
     if (widget.todoDaModificare != null) {
@@ -134,7 +127,7 @@ class _TodoappCreazioneSchermataState extends State<TodoappCreazioneSchermata> {
         title: titolo,
         description: descrizione,
       );
-      await controller.aggiornaUnTodoDellaLista(
+      await controller.aggiornaUnTodo(
         widget.todoDaModificare!.id,
         todoAggiornato,
       );
@@ -147,6 +140,6 @@ class _TodoappCreazioneSchermataState extends State<TodoappCreazioneSchermata> {
       description: descrizione,
     );
 
-    await controller.aggiungiUnTodoAllaLista(nuovoTodo);
+    await controller.aggiungiUnTodo(nuovoTodo);
   }
 }

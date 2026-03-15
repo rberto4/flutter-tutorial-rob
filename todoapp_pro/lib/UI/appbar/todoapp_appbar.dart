@@ -5,20 +5,22 @@ class TodoappAppbar extends StatelessWidget {
   final String? titolo;
   final List<Widget>? azioni;
   final bool? mostraFrecciaIndietro;
+  final double? fontSize;
   const TodoappAppbar({
     super.key,
     this.titolo,
     this.azioni,
     this.mostraFrecciaIndietro,
+    this.fontSize,
   });
 
   @override
   Widget build(BuildContext context) {
     String primaParte = titolo != null && titolo!.contains(' ')
-      ? '${titolo!.split(' ')[0]} '
+        ? '${titolo!.split(' ')[0]} '
         : 'Todo';
     String secondaParte = titolo != null && titolo!.contains(' ')
-      ? titolo!.split(' ').sublist(1).join(' ')
+        ? titolo!.split(' ').sublist(1).join(' ')
         : 'App';
 
     return AppBar(
@@ -30,23 +32,26 @@ class TodoappAppbar extends StatelessWidget {
           children: [
             TextSpan(
               text: primaParte,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                fontWeight: FontWeight.bold,
+                color: null,
+                foreground: Paint()..color = TodoappColori.nero,
+                fontSize: fontSize,
+              ),
             ),
             TextSpan(
               text: secondaParte,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 fontWeight: FontWeight.bold,
-                color: TodoappColori.rosso,
+                color: null,
+                foreground: Paint()..color = TodoappColori.rosso,
+                fontSize: fontSize,
               ),
             ),
           ],
         ),
       ),
-      actions: [
-        if (azioni != null) ...azioni!,
-      ],
+      actions: [if (azioni != null) ...azioni!],
       centerTitle: false,
       backgroundColor: Colors.amber,
     );

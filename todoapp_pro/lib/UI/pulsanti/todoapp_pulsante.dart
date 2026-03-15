@@ -22,7 +22,7 @@ class TodoAppPulsante extends StatelessWidget {
       coloreDiSfondo: coloreDiSfondo,
       child: TextButton(
         style: TextButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(6),
           ),
@@ -37,7 +37,7 @@ class TodoAppPulsante extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (icona != null) Icon(icona, color: coloreDelTesto ?? Colors.black, size: 24,),
-              if (testo != null) Text(testo!, style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: coloreDelTesto ?? Colors.black)),
+              if (testo != null) Text(testo!, style: Theme.of(context).textTheme.bodySmall!.copyWith(color: coloreDelTesto ?? Colors.black)),
             ],
           ),
         ),

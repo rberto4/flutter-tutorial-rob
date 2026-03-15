@@ -3,9 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:todoapp_pro/temi/todoapp_colori.dart';
 
 class TodoappTema {
-  static final font = GoogleFonts.bitcountSingleInk(
-    fontWeight: FontWeight.bold
-  );
+  static final font = GoogleFonts.bitcountGridSingle();
 
   static final tema = ThemeData(
     colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

@@ -29,4 +29,26 @@ class TodoappTodoModello {
       isDone: isDone ?? this.isDone
     );
   }
+  // Questi metodi servono per convertire un oggetto Todo in una mappa (ad esempio, per salvarlo in un database)
+  // e per creare un oggetto Todo a partire da una mappa (ad esempio,
+  // quando recuperiamo i dati da un database, li otteniamo sotto forma di mappa, 
+  // e dobbiamo convertirli in oggetti Todo per poterli usare nella nostra app).
+
+  factory TodoappTodoModello.fromMap(Map<String, dynamic> map, String documentId) {
+  return TodoappTodoModello(
+    id: documentId,
+    title: map['title'] ?? '',
+    description: map['description'] ?? '',
+    isDone: map['isDone'] ?? false,
+  );
+}
+
+Map<String, dynamic> toMap() {
+  return {
+    'id': id,
+    'title': title,
+    'description': description,
+    'isDone': isDone,
+  };
+}
 }

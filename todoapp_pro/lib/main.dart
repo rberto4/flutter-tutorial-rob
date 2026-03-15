@@ -1,10 +1,23 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todoapp_pro/firebase_options.dart';
 import 'package:todoapp_pro/schermate/todoapp_homepage_schermata.dart';
 import 'package:todoapp_pro/temi/todoapp_tema.dart';
 import 'package:todoapp_pro/todoapp_provider.dart';
 
-void main() {
+// Future serve per indicare che questa funzione è asincrona, 
+// e che potrebbe impiegare del tempo per completarsi (ad esempio, se stiamo caricando dati da un database o da internet).
+
+Future<void> main() async{
+  // 1. Prima di tutto, assicuriamoci che Flutter sia inizializzato
+  WidgetsFlutterBinding.ensureInitialized(); 
+
+   // 2. Inizializza Firebase con le opzioni specifiche per la piattaforma
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(
      MultiProvider(
       providers: [

@@ -1,7 +1,8 @@
 import 'package:provider/provider.dart';
 import 'package:todoapp_pro/controller/todoapp_controller.dart';
-import 'package:todoapp_pro/servizi/todoapp_servizio_implementazione.dart';
-import 'package:todoapp_pro/servizi/todoapp_servizio_sqlite.dart';
+import 'package:todoapp_pro/servizi/implementazioni/todoapp_servizio_impl_firestore.dart';
+import 'package:todoapp_pro/servizi/implementazioni/todoapp_servizio_impl_memoria.dart';
+import 'package:todoapp_pro/servizi/implementazioni/todoapp_servizio_impl_sqlite.dart';
 
 final todoAppProvider = ChangeNotifierProvider<TodoappController>(
 
@@ -16,10 +17,10 @@ final todoAppProvider = ChangeNotifierProvider<TodoappController>(
 
     create: (context) {
       final controller = TodoappController(
-       // servizio: TodoappServizioImplementazione(),
-       servizio: TodoappServizioSqlite()
+      //   servizio: TodoappServizioImplMemoria(),
+       //servizio: TodoappServizioImplSqlite()
+        servizio: TodoappServizioImplFirestore()
       );
-      controller.ottieniListaDeiTodo();
       return controller;
     },
 );
