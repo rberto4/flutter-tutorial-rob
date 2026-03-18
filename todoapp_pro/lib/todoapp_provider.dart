@@ -1,8 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:todoapp_pro/controller/todoapp_controller.dart';
 import 'package:todoapp_pro/servizi/implementazioni/todoapp_servizio_impl_firestore.dart';
-import 'package:todoapp_pro/servizi/implementazioni/todoapp_servizio_impl_memoria.dart';
-import 'package:todoapp_pro/servizi/implementazioni/todoapp_servizio_impl_sqlite.dart';
 
 final todoAppProvider = ChangeNotifierProvider<TodoappController>(
 

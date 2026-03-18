@@ -165,28 +165,10 @@ class _HomepageState extends State<Homepage> {
               });
             },
             // titolo del todo, con font personalizzato e stile
-            title: Text(
-              todo.title,
-              style: GoogleFonts.bitcountSingleInk(
-                textStyle: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  decoration: todo.isDone
-                      ? TextDecoration.lineThrough
-                      : TextDecoration.none,
-                  color: todo.isDone ? Colors.white : Colors.black,
-                ),
-              ),
-            ),
+            title: Text(todo.title),
 
             // descrizione del todo, con font personalizzato e stile
-            subtitle: Text(
-              todo.description,
-              style: GoogleFonts.bitcountSingleInk(
-                textStyle: const TextStyle(fontSize: 16),
-                color: todo.isDone ? Colors.white : Colors.black,
-              ),
-            ),
+            subtitle: Text(todo.description),
             leading: Transform.scale(
               scale: 1.2, // aumenta dimensione checkbox
               child: Checkbox(
@@ -229,7 +211,7 @@ class _HomepageState extends State<Homepage> {
     // Apriamo la schermata di creazione e aspettiamo il Todo restituito.
     final Todo? nuovo = await Navigator.push<Todo?>(
       context,
-      CupertinoPageRoute(builder: (context) => const CreaNuovoElemento()),
+      MaterialPageRoute(builder: (context) => const CreaNuovoElemento()),
     );
 
     // Se l'utente ha salvato un Todo (non ha annullato), lo aggiungiamo.

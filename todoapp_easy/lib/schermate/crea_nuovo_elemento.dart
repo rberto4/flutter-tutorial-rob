@@ -5,6 +5,7 @@ import 'package:todoapp_easy/model/todo.dart';
 class CreaNuovoElemento extends StatefulWidget {
 
   final Todo? todoDaModificare; 
+
   const CreaNuovoElemento({super.key, this.todoDaModificare});
 
   @override
@@ -14,7 +15,7 @@ class CreaNuovoElemento extends StatefulWidget {
 class _CreaNuovoElementoState extends State<CreaNuovoElemento> {
   // Attributi di classe
   // Lista di Todo che conterrà tutti i Todo creati dall'utente. Inizialmente è vuota
-  Todo nuovoTodo = Todo(title: "", description: "");
+  Todo nuovoTodo = Todo(title: "ciao", description: "wecwec");
   TextEditingController titoloController = TextEditingController();
   TextEditingController descrizioneController = TextEditingController();
 
