@@ -1,7 +1,5 @@
-import 'dart:async';
-import 'package:todoapp_pro/model/todoapp_todo_modello.dart';
-import 'package:todoapp_pro/servizi/todoapp_servizio_astratto.dart';
 
+/*
 class TodoappServizioImplMemoria implements TodoAppServizioAstratto {
   // La nostra lista "sorgente"
   final List<TodoappTodoModello> _listaInterna = [];
@@ -54,3 +52,5 @@ class TodoappServizioImplMemoria implements TodoAppServizioAstratto {
     }
   }
 }
+
+*/

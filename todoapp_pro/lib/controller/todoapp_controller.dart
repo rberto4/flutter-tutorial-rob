@@ -13,22 +13,29 @@ class TodoappController extends ChangeNotifier {
   // Servizio astratto
   final TodoAppServizioAstratto servizio;
   
+  List<TodoappTodoModello> _listaCompletaDeiTodo = [];
   List<TodoappTodoModello> _listaDeiTodo = [];
+  String _testoFiltroCorrente = '';
   List<TodoappTodoModello> get listaDeiTodo => _listaDeiTodo;
 
   // StreamSubscription per chiudere l'ascolto quando il controller viene distrutto
   StreamSubscription? _subscription;
-
   TodoappController({required this.servizio}) {
     _inizializza();
   }
 
+  // Controller della lista
+
+  final ScrollController _scrollController = ScrollController();
+  ScrollController get scrollController => _scrollController;
+
   void _inizializza() {
     // Ci mettiamo in ascolto dello stream definito nel servizio
     _subscription = servizio.streamDeiTodo().listen((nuovaLista) {
-      nuovaLista.sort((a, b) => a.isDone.toString().compareTo(b.isDone.toString())); // Ordina i todo in base allo stato
-      _listaDeiTodo = nuovaLista;
-      notifyListeners(); // Notifica la UI automaticamente
+      final listaOrdinata = [...nuovaLista]
+        ..sort((a, b) => a.isDone.toString().compareTo(b.isDone.toString())); // Ordina i todo in base allo stato
+      _listaCompletaDeiTodo = listaOrdinata;
+      _applicaFiltro(notifica: true);
     }, onError: (error) {
       print("Errore nello stream: $error");
     });
@@ -69,9 +76,32 @@ class TodoappController extends ChangeNotifier {
     }
   }
 
+  // Metodo per filtrare la lista dei todo in base a un testo di ricerca
+  void filtraLaListaDeiTodo(String testo) {
+    _testoFiltroCorrente = testo.trim();
+    _applicaFiltro(notifica: true);
+  }
+
+  void _applicaFiltro({required bool notifica}) {
+    // Il filtro è gestito nel controller perché è una logica di presentazione.
+    if (_testoFiltroCorrente.isEmpty) {
+      _listaDeiTodo = [..._listaCompletaDeiTodo];
+    } else {
+      final filtro = _testoFiltroCorrente.toLowerCase();
+      _listaDeiTodo = _listaCompletaDeiTodo
+          .where((todo) => todo.title.toLowerCase().contains(filtro))
+          .toList();
+    }
+
+    if (notifica) {
+      notifyListeners();
+    }
+  }
+
   @override
   void dispose() {
     _subscription?.cancel(); // Importante: pulizia della memoria
+    _scrollController.dispose(); // Pulizia del controller di scroll
     super.dispose();
   }
 }

@@ -20,6 +20,7 @@ abstract class TodoAppServizioAstratto {
   Future<void> rimuoviUnTodoDallaLista(String id);
   Future<void> aggiornaUnTodoDellaLista(String id, TodoappTodoModello todoNuovo);
   Future<void> completaUnTodoDellaLista(String id);
+
 }
 
 

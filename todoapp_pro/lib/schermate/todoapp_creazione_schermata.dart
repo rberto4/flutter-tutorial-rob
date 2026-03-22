@@ -5,6 +5,7 @@ import 'package:todoapp_pro/UI/container/todoapp_container.dart';
 import 'package:todoapp_pro/UI/pulsanti/todoapp_pulsante.dart';
 import 'package:todoapp_pro/UI/textfield/todoapp_textfield.dart';
 import 'package:todoapp_pro/controller/todoapp_controller.dart';
+import 'package:todoapp_pro/model/todoapp_tag_modello.dart';
 import 'package:todoapp_pro/model/todoapp_todo_modello.dart';
 import 'package:todoapp_pro/temi/todoapp_colori.dart';
 
@@ -138,6 +139,11 @@ class _TodoappCreazioneSchermataState extends State<TodoappCreazioneSchermata> {
       id: UniqueKey().toString(),
       title: titolo,
       description: descrizione,
+      tag: TodoappTagModello(
+        id: UniqueKey().toString(),
+        tag: '',
+        colore: '',
+      ),
     );
 
     await controller.aggiungiUnTodo(nuovoTodo);

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todoapp_pro/UI/appbar/todoapp_appbar.dart';
 import 'package:todoapp_pro/UI/elementoTodo/todoapp_elementotodo.dart';
+import 'package:todoapp_pro/UI/filtri/todoapp_searchbar.dart';
 import 'package:todoapp_pro/UI/pulsanti/todoapp_pulsante.dart';
 import 'package:todoapp_pro/controller/todoapp_controller.dart';
 import 'package:todoapp_pro/model/todoapp_todo_modello.dart';
@@ -22,15 +23,33 @@ class TodoappHomepageSchermata extends StatelessWidget {
         child: TodoappAppbar(titolo: 'TodoApp'),
       ),
       body: SafeArea(
-        child: todos.isEmpty
-            ? const Center(
-                child: Text(
-                  'Non ci sono todo!\naggiungine uno cliccando\nsul pulsante in basso (:',
-                  style: TextStyle(fontSize: 18.0, color: TodoappColori.nero),
-                  textAlign: TextAlign.center,
-                ),
-              )
-            : _buildTodoList(context, todos),
+        child: Column(
+          spacing: 4,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: 16.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: const TodoappSearchbar(),
+            ),
+            todos.isEmpty ? Spacer() : SizedBox(),
+            todos.isEmpty
+                ? Center(
+                    child: Text(
+                      'Non ci sono todo!\naggiungine uno cliccando\nsul pulsante in basso (:',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        color: TodoappColori.nero,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                : Expanded(child: _buildTodoList(context, todos)),
+                        todos.isEmpty ? Spacer() : SizedBox(),
+          ],
+        ),
       ),
       floatingActionButton: TodoAppPulsante(
         testo: 'Aggiungi',
@@ -55,6 +74,9 @@ class TodoappHomepageSchermata extends StatelessWidget {
     final completati = todos.where((t) => t.isDone).toList();
 
     return ListView(
+      controller: context
+          .watch<TodoappController>()
+          .scrollController, // Assegniamo il controller di scroll
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
       children: [
@@ -67,7 +89,7 @@ class TodoappHomepageSchermata extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: TodoappColori.nero,
-                fontSize: 18
+                fontSize: 18,
               ),
             ),
           ),
@@ -79,7 +101,11 @@ class TodoappHomepageSchermata extends StatelessWidget {
         if (nonCompletati.isNotEmpty && completati.isNotEmpty)
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 16.0),
-            child: Divider(color: TodoappColori.nero, thickness: 3, radius: BorderRadius.all(Radius.circular(8.0)),),
+            child: Divider(
+              color: TodoappColori.nero,
+              thickness: 3,
+              radius: BorderRadius.all(Radius.circular(8.0)),
+            ),
           ),
 
         // --- SEZIONE COMPLETATI (con titolo opzionale) ---
@@ -91,7 +117,7 @@ class TodoappHomepageSchermata extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: TodoappColori.nero,
-                fontSize: 18
+                fontSize: 18,
               ),
             ),
           ),

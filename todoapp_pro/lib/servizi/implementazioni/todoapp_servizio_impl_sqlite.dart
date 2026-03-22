@@ -1,10 +1,6 @@
-import 'dart:async';
 
-import 'package:path/path.dart' as p;
-import 'package:sqflite/sqflite.dart';
-import 'package:todoapp_pro/model/todoapp_todo_modello.dart';
-import 'package:todoapp_pro/servizi/todoapp_servizio_astratto.dart';
 
+/*
 class TodoappServizioImplSqlite implements TodoAppServizioAstratto {
   static const String _databaseName = 'todoapp.db';
   static const int _databaseVersion = 1;
@@ -106,3 +102,5 @@ class TodoappServizioImplSqlite implements TodoAppServizioAstratto {
   }
  
 }
+
+*/

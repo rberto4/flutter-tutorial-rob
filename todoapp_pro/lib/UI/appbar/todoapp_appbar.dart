@@ -22,7 +22,7 @@ class TodoappAppbar extends StatelessWidget {
     String secondaParte = titolo != null && titolo!.contains(' ')
         ? titolo!.split(' ').sublist(1).join(' ')
         : 'App';
-
+    
     return AppBar(
       automaticallyImplyLeading: mostraFrecciaIndietro ?? false,
       // widget particolare per creare titolo con 2 colori
@@ -51,7 +51,7 @@ class TodoappAppbar extends StatelessWidget {
           ],
         ),
       ),
-      actions: [if (azioni != null) ...azioni!],
+      actions: [if (azioni != null) ...azioni! ],
       centerTitle: false,
       backgroundColor: Colors.amber,
     );
